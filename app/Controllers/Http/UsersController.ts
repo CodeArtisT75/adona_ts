@@ -34,7 +34,7 @@ export default class UsersController {
 
     const user = await User.findOrFail(id);
 
-    await user.merge(userData);
+    await user.merge(userData).save();
 
     return response.json(user);
   }
