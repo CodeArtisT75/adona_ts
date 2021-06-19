@@ -5,9 +5,9 @@ import UpdateUserValidator from 'App/Validators/Users/UpdateUserValidator';
 
 export default class UsersController {
   public async index({ params, response }: HttpContextContract) {
-    const { page, per_page } = params;
+    const { page, per_page: perPage } = params;
 
-    const users = await User.query().paginate(page, per_page);
+    const users = await User.query().paginate(page, perPage);
 
     return response.json(users);
   }
