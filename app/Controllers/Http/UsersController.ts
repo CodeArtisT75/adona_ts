@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
+import { Validate } from 'App/Decorators/Validate';
 import User from 'App/Models/User';
 import StoreUserValidator from 'App/Validators/Users/StoreUserValidator';
 import UpdateUserValidator from 'App/Validators/Users/UpdateUserValidator';
@@ -12,10 +13,12 @@ export default class UsersController {
     return response.json(users);
   }
 
-  public async store({ request, response }: HttpContextContract) {
-    const userData = await request.validate(StoreUserValidator);
+  @Validate(StoreUserValidator)
+  public async store({ response, validated }: HttpContextContract) {
+    // bypass manual validation and pass it to @Validate decorator
+    // const userData = await request.validate(StoreUserValidator);
 
-    const user = await User.create(userData);
+    const user = await User.create(validated);
 
     return response.json(user);
   }
